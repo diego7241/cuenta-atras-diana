@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cuenta atrás — Cada día menos para volver a ti</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FFF8F3; --card:#ffffff; --muted:#9b9b9b; --accent:#ff7a6b; --teal:#2bb6a3;
+      --paper:#fffefc; --shadow: 0 8px 30px rgba(15,15,15,0.08);
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:linear-gradient(180deg,var(--bg),#FFFDFB); padding:28px; color:#233;}
+    .wrap{max-width:1100px;margin:12px auto;padding:28px;background:var(--card);border-radius:18px;box-shadow:var(--shadow);}
+    header{display:flex;align-items:center;gap:18px}
+    .title{flex:1}
+    h1{font-family:'Great Vibes',serif;font-size:42px;margin:0;color:var(--accent);line-height:1}
+    p.lead{margin:6px 0 0;color:var(--muted)}
+
+    .meta{display:flex;gap:10px;align-items:center}
+    .meta small{color:var(--muted)}
+
+    .poster{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:22px}
+    .month{background:linear-gradient(180deg,#ffffff, #fffdfb);border-radius:12px;padding:14px 12px;box-shadow:0 6px 18px rgba(12,12,12,0.05);border:1px solid rgba(0,0,0,0.03)}
+    .month h3{margin:0 0 8px;font-size:18px;color:#333}
+    .month .hint{font-size:13px;color:var(--muted);margin-bottom:8px}
+
+    .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+    .day{background:var(--paper);height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600;position:relative;cursor:pointer;border:1px dashed rgba(0,0,0,0.03)}
+    .day.small{height:40px;font-size:14px}
+    .day.disabled{opacity:0.25;cursor:default}
+    .day .mark{font-size:18px}
+    .day .date{position:absolute;top:6px;left:8px;font-size:11px;color:var(--muted);font-weight:500}
+
+    .legend{display:flex;gap:12px;align-items:center;margin-top:14px}
+    .legend .chip{display:flex;gap:6px;align-items:center;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid rgba(0,0,0,0.04)}
+
+    .controls{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
+    button{background:var(--teal);color:#fff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+    button.ghost{background:transparent;color:var(--teal);border:1px solid rgba(43,182,163,0.14)}
+
+    .notes{margin-top:16px;color:var(--muted);font-size:14px}
+
+    /* special march 22 */
+    .special{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;height:100%;text-align:center}
+    .special .big{font-size:20px;color:var(--accent);font-weight:700}
+    .special .sub{font-size:13px;color:var(--muted)}
+
+    /* responsive */
+    @media(max-width:920px){.poster{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:520px){.poster{grid-template-columns:1fr} .day{height:44px}}
+
+    /* print */
+    @media print{body{padding:0} .controls, .legend, header .meta{display:none} .wrap{box-shadow:none;border-radius:0}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Cada día que pasa, es un día menos para volver a ti.</h1>
+        <p class="lead">Calendario — Del <strong>11 de diciembre</strong> al <strong>22 de marzo</strong></p>
+      </div>
+      <div class="meta">
+        <small>Marca con ❌ o ❤️ cada día</small>
+      </div>
+    </header>
+
+    <div class="controls">
+      <button id="clear">Limpiar marcas</button>
+      <button id="print" class="ghost">Imprimir / Guardar PDF</button>
+    </div>
+
+    <div class="poster" id="poster"></div>
+
+    <div class="legend">
+      <div class="chip">❌ Día completado</div>
+      <div class="chip">❤️ Día especial</div>
+      <div style="flex:1"></div>
+      <div class="chip">🌸 22 de marzo — ¡Vuelve a casa!</div>
+    </div>
+
+    <p class="notes">Sugerencia: guarda la página en tu computador como <code>cuenta_atras.html</code> y ábrela en el navegador. Las marcas se guardarán en este navegador (localStorage).</p>
+  </div>
+
+  <script>
+    // Genera el calendario desde el 11 de diciembre del año actual hasta el 22 de marzo del siguiente año.
+    const now = new Date();
+    const startYear = now.getFullYear();
+    // If today's month is after March but before December, we still want this Dec as start. Safe approach: start dec of current year.
+    const start = new Date(startYear, 11, 11); // Dec 11
+    const end = new Date(start.getFullYear()+1, 2, 22); // Mar 22 next year
+
+    const poster = document.getElementById('poster');
+
+    const months = [
+      {name: 'Diciembre', year: start.getFullYear(), from: 11, startDay: 11, endDay: 31, hint: 'Tu primer mes lejos, pero aquí sigo contigo.'},
+      {name: 'Enero', year: start.getFullYear()+1, from: 0, startDay: 1, endDay: 31, hint: 'Un nuevo año, pero mi amor por ti sigue siendo el mismo.'},
+      {name: 'Febrero', year: start.getFullYear()+1, from: 1, startDay: 1, endDay: null, hint: 'Falta poco… muy poco. Cada día te acerca a mí.'},
+      {name: 'Marzo', year: start.getFullYear()+1, from: 2, startDay: 1, endDay: 22, hint: ''}
+    ];
+
+    // Helper: days in month
+    function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
+    if(months[2].endDay === null){ months[2].endDay = daysInMonth(months[2].year,1); }
+
+    // LocalStorage key
+    const LSKEY = 'cuenta_atras_marcas_' + start.getFullYear() + '_' + (start.getFullYear()+1);
+    let marks = JSON.parse(localStorage.getItem(LSKEY) || '{}');
+
+    // Create month columns
+    months.forEach((m, idx)=>{
+      const col = document.createElement('div'); col.className = 'month';
+      const title = document.createElement('h3'); title.textContent = m.name + ' ' + m.year; col.appendChild(title);
+      if(m.hint){ const hint = document.createElement('div'); hint.className='hint'; hint.textContent = m.hint; col.appendChild(hint); }
+
+      const grid = document.createElement('div'); grid.className = 'grid';
+
+      // Weekday headers
+      const weekNames = ['L','M','M','J','V','S','D'];
+      weekNames.forEach(w=>{
+        const wEl = document.createElement('div'); wEl.className='day small disabled'; wEl.style.fontWeight=700; wEl.textContent = w; grid.appendChild(wEl);
+      });
+
+      // Determine first weekday of the month (we'll use Date to calc)
+      const firstWeekday = new Date(m.year, m.from, m.startDay).getDay(); // 0=sun..6=sat
+      // Our column: L M M J V S D => Mon..Sun ordering. Convert JS day to index where Mon=0
+      const jsToGrid = d => (d + 6) % 7; // sunday(0)->6, monday(1)->0 ...
+      const offset = jsToGrid(firstWeekday);
+
+      // Add blank cells for offset
+      for(let b=0;b<offset;b++){ const blank = document.createElement('div'); blank.className='day disabled'; grid.appendChild(blank); }
+
+      const endDay = m.endDay;
+      for(let d = m.startDay; d<=endDay; d++){
+        const date = new Date(m.year, m.from, d);
+        // Only include days within start..end range
+        if(date < start || date > end) { const blank = document.createElement('div'); blank.className='day disabled'; grid.appendChild(blank); continue; }
+
+        const cell = document.createElement('div'); cell.className='day';
+        const dateLabel = document.createElement('div'); dateLabel.className='date'; dateLabel.textContent = d; cell.appendChild(dateLabel);
+        const mark = document.createElement('div'); mark.className='mark';
+        const key = date.toISOString().slice(0,10);
+        if(marks[key]){ mark.textContent = marks[key]; }
+        cell.appendChild(mark);
+
+        // special: march 22
+        if(date.getMonth()===2 && date.getDate()===22){ cell.classList.add('special'); cell.innerHTML = '<div class="special"><div class="big">🌸 Hoy vuelves a casa… y a mí.</div><div class="sub">(❤️ Tu inicial + Su inicial)</div></div>'; }
+        else{
+          cell.addEventListener('click', ()=>{
+            // cycle: empty -> ❌ -> ❤️ -> empty
+            const cur = marks[key] || '';
+            const next = cur === '' ? '❌' : (cur === '❌' ? '❤️' : '');
+            marks[key] = next;
+            if(next === '') delete marks[key];
+            localStorage.setItem(LSKEY, JSON.stringify(marks));
+            mark.textContent = next;
+          });
+        }
+
+        grid.appendChild(cell);
+      }
+
+      col.appendChild(grid);
+      poster.appendChild(col);
+    });
+
+    // Controls
+    document.getElementById('clear').addEventListener('click', ()=>{
+      if(confirm('¿Borrar todas las marcas?')){ marks = {}; localStorage.removeItem(LSKEY); location.reload(); }
+    });
+    document.getElementById('print').addEventListener('click', ()=> window.print());
+  </script>
+</body>
+</html>
