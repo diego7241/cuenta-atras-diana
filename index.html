@@ -2,152 +2,176 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cuenta atrás — Cada día menos para volver a ti</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  
+
   <style>
-    :root{
-      --bg:#FFF8F3; --card:#ffffff; --muted:#9b9b9b; --accent:#ff7a6b; --teal:#2bb6a3;
-      --paper:#fffefc; --shadow: 0 8px 30px rgba(15,15,15,0.08);
-    }
-    *{box-sizing:border-box}
-    body{
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
-      background:linear-gradient(180deg,var(--bg),#FFFDFB);
-      padding:28px;
-      color:#233;
-    }
-    .wrap{
-      max-width:1100px;
-      margin:12px auto;
-      padding:28px;
-      background:var(--card);
-      border-radius:18px;
-      box-shadow:var(--shadow);
-      display:none; /* oculto hasta validar contraseña */
+    :root {
+      --bg:#FFF8F3;
+      --card:#ffffff;
+      --muted:#9b9b9b;
+      --accent:#ff7a6b;
+      --teal:#2bb6a3;
+      --paper:#fffefc;
+      --shadow: 0 8px 30px rgba(15,15,15,0.08);
     }
 
-    header{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      flex-wrap:wrap;
-    }
-    .title{flex:1}
-    h1{
-      font-family:'Great Vibes',serif;
-      font-size:42px;
-      margin:0;
-      color:var(--accent);
-      line-height:1.1;
-    }
-    p.lead{margin:6px 0 0;color:var(--muted)}
+    * { box-sizing: border-box; }
 
-    .meta{display:flex;gap:10px;align-items:center}
-    .meta small{color:var(--muted)}
-
-    .poster{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:18px;
-      margin-top:22px;
-    }
-    .month{
-      background:linear-gradient(180deg,#ffffff, #fffdfb);
-      border-radius:12px;
-      padding:14px 12px;
-      box-shadow:0 6px 18px rgba(12,12,12,0.05);
-      border:1px solid rgba(0,0,0,0.03)
-    }
-    .month h3{margin:0 0 8px;font-size:18px;color:#333}
-    .month .hint{font-size:13px;color:var(--muted);margin-bottom:8px}
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(7,1fr);
-      gap:8px
-    }
-    .day{
-      background:var(--paper);
-      height:48px;
-      border-radius:8px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:600;
-      position:relative;
-      cursor:pointer;
-      border:1px dashed rgba(0,0,0,0.03)
-    }
-    .day.small{height:40px;font-size:14px}
-    .day.disabled{opacity:0.25;cursor:default}
-    .day .mark{font-size:18px}
-    .day .date{
-      position:absolute;
-      top:6px;
-      left:8px;
-      font-size:11px;
-      color:var(--muted);
-      font-weight:500
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(180deg, var(--bg), #FFFDFB);
+      padding: 28px;
+      color: #233;
     }
 
-    .legend{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      margin-top:14px;
-      flex-wrap:wrap;
-    }
-    .legend .chip{
-      display:flex;
-      gap:6px;
-      align-items:center;
-      padding:6px 10px;
-      border-radius:999px;
-      background:#fff;
-      border:1px solid rgba(0,0,0,0.04)
+    .wrap {
+      max-width: 1100px;
+      margin: 12px auto;
+      padding: 28px;
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      display: none;
     }
 
-    .controls{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      justify-content:flex-end;
-      margin-top:12px;
-      flex-wrap:wrap;
-    }
-    button{
-      background:var(--teal);
-      color:#fff;
-      padding:10px 14px;
-      border-radius:10px;
-      border:none;
-      cursor:pointer;
-      font-weight:600
-    }
-    button.ghost{
-      background:transparent;
-      color:var(--teal);
-      border:1px solid rgba(43,182,163,0.14)
+    header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
     }
 
-    .notes{
-      margin-top:16px;
-      color:var(--muted);
-      font-size:14px
+    .title { flex: 1; }
+
+    h1 {
+      font-family: 'Great Vibes', serif;
+      font-size: 42px;
+      margin: 0;
+      color: var(--accent);
+      line-height: 1.1;
     }
 
-    /* FIX ESPECIAL — evita que marzo se descuadre */
+    p.lead { margin: 6px 0 0; color: var(--muted); }
+
+    .meta { display: flex; gap: 10px; align-items: center; }
+    .meta small { color: var(--muted); }
+
+    .poster {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .month {
+      background: linear-gradient(180deg, #ffffff, #fffdfb);
+      border-radius: 12px;
+      padding: 14px 12px;
+      box-shadow: 0 6px 18px rgba(12,12,12,0.05);
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .month h3 { margin: 0 0 8px; font-size: 18px; color: #333; }
+    .month .hint { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .day {
+      background: var(--paper);
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      position: relative;
+      cursor: pointer;
+      border: 1px dashed rgba(0,0,0,0.03);
+    }
+
+    .day.small { height: 40px; font-size: 14px; }
+    .day.disabled { opacity: 0.25; cursor: default; }
+
+    .day .mark { font-size: 18px; }
+
+    .day .date {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .legend .chip {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: var(--teal);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button.ghost {
+      background: transparent;
+      color: var(--teal);
+      border: 1px solid rgba(43,182,163,0.14);
+    }
+
+    .notes {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Día final especial */
     .day.special {
       height: 48px !important;
       padding: 0 !important;
       overflow: hidden;
       position: relative;
+      background: var(--accent);
+      color: white;
+      cursor: default;
     }
-    .day.special .special {
+
+    .day.special > div {
       position: absolute;
       inset: 0;
       display: flex;
@@ -156,233 +180,448 @@
       justify-content: center;
       padding: 2px;
     }
-    .day.special .big {
-      font-size: 12px !important;
-      line-height: 1.1;
-    }
-    .day.special .sub {
-      font-size: 10px !important;
-      line-height: 1;
+
+    .day.special .big { font-size: 12px !important; line-height: 1.1; }
+    .day.special .sub { font-size: 10px !important; line-height: 1; }
+
+    /* Mensajes */
+    .messages-box {
+      margin-top: 30px;
+      padding: 20px;
+      background: var(--paper);
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(12, 12, 12, 0.04);
+      border: 1px solid rgba(0,0,0,0.03);
     }
 
-    /* responsive */
-    @media(max-width:920px){
-      .poster{grid-template-columns:repeat(2,1fr)}
-      h1{font-size:34px;text-align:center}
-      header{justify-content:center;text-align:center}
-    }
-    @media(max-width:600px){
-      .poster{grid-template-columns:1fr}
-      h1{font-size:30px}
-      body{padding:12px}
-      .wrap{padding:20px}
-      .day{height:42px;font-size:15px}
-      .controls{justify-content:center}
-      button{width:100%;max-width:300px}
-    }
-    @media(max-width:420px){
-      h1{font-size:26px}
-      .day{height:38px;font-size:14px}
-      .grid{gap:6px}
+    .msg-title {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 24px;
+      color: var(--accent);
+      font-weight: 600;
     }
 
-    /* print */
-    @media print{
-      body{padding:0}
-      .controls, .legend, header .meta{display:none}
-      .wrap{box-shadow:none;border-radius:0}
+    .toggle-btn {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto 15px;
+      padding: 10px 20px;
+      background: var(--teal);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      border: none;
     }
 
-    /* pantalla de contraseña */
-    #login{
-      max-width:380px;
-      margin:50px auto;
-      padding:24px;
-      background:white;
-      border-radius:14px;
-      box-shadow:var(--shadow);
-      text-align:center;
+    .messages {
+      max-height: 500px;
+      overflow-y: auto;
+      transition: max-height 0.3s ease-in-out, opacity 0.3s;
+      opacity: 1;
     }
-    #login input{
-      width:100%;
-      padding:12px;
-      margin-top:12px;
-      font-size:16px;
-      border-radius:8px;
-      border:1px solid #ccc;
+
+    .messages.hidden {
+      max-height: 0;
+      opacity: 0;
+      overflow-y: hidden;
+      padding: 0;
     }
-    #login button{
-      width:100%;
-      margin-top:14px;
+
+    .messages ol {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 10px 20px;
+      counter-reset: message-counter;
+    }
+
+    .messages ol li {
+      font-size: 15px;
+      padding: 6px 0;
+      color: #333;
+      counter-increment: message-counter;
+    }
+
+    .messages ol li:before {
+      content: counter(message-counter) ". ";
+      font-weight: bold;
+      color: var(--teal);
+      margin-right: 5px;
+    }
+
+    /* Responsive */
+    @media (max-width:920px) {
+      .poster { grid-template-columns: repeat(2, 1fr); }
+      h1 { font-size: 34px; text-align: center; }
+      header { justify-content: center; text-align: center; }
+    }
+
+    @media (max-width:600px) {
+      .poster { grid-template-columns: 1fr; }
+      h1 { font-size: 30px; }
+      body { padding: 12px; }
+      .wrap { padding: 20px; }
+      .day { height: 42px; font-size: 15px; }
+      .controls { justify-content: center; }
+      button { width: 100%; max-width: 300px; }
+      .messages ol { grid-template-columns: 1fr; }
+      .toggle-btn { max-width: 100%; }
+    }
+
+    @media (max-width:420px) {
+      h1 { font-size: 26px; }
+      .day { height: 38px; font-size: 14px; }
+      .grid { gap: 6px; }
+    }
+
+    /* Print */
+    @media print {
+      body { padding: 0; }
+      .controls, .legend, header .meta, .toggle-btn { display: none; }
+      .messages.hidden {
+        display: block !important;
+        max-height: none !important;
+        opacity: 1 !important;
+      }
+      .wrap { box-shadow: none; border-radius: 0; }
+    }
+
+    /* Pantalla de contraseña */
+    #login {
+      max-width: 380px;
+      margin: 50px auto;
+      padding: 24px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    #login input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    #login button {
+      width: 100%;
+      margin-top: 14px;
     }
   </style>
 </head>
 
+
 <body>
 
-  <!-- LOGIN -->
-  <div id="login">
-    <h2 style="font-family:'Great Vibes';color:var(--accent);font-size:32px;margin:0 0 10px;">
-      Para mi amorcito ❤️
-    </h2>
-    <p>Ingresa la clave especial:</p>
-    <input type="password" id="pass" placeholder="••••" />
-    <button onclick="checkPass()">Entrar</button>
-    <p style="color:var(--muted);font-size:13px;margin-top:6px">Pista: nuestra fecha 💕</p>
-  </div>
+    <div id="login">
+    <h2 style="font-family:'Great Vibes';color:var(--accent);font-size:32px;margin:0 0 10px;">
+      Para mi amorcito ❤️
+    </h2>
+    <p>Ingresa la clave especial:</p>
+    <input type="password" id="pass" placeholder="••••" />
+    <button onclick="checkPass()">Entrar</button>
+    <p style="color:var(--muted);font-size:13px;margin-top:6px">Pista: nuestra fecha 💕</p>
+  </div>
 
-  <!-- CONTENIDO REAL -->
-  <div class="wrap" id="content">
-    <header>
-      <div class="title">
-        <h1>Cada día que pasa, es un día menos para volver a ti.</h1>
-        <p class="lead">Calendario — Del <strong>11 de diciembre</strong> al <strong>22 de marzo</strong></p>
-      </div>
-      <div class="meta">
-        <small>Marca con ❌ o ❤️ cada día</small>
-      </div>
-    </header>
+    <div class="wrap" id="content">
+    <header>
+      <div class="title">
+        <h1>Cada día que pasa, es un día menos para volver a ti.</h1>
+        <p class="lead">Calendario — Del <strong>11 de diciembre</strong> al <strong>22 de marzo</strong></p>
+      </div>
+      <div class="meta">
+        <small>Marca con ❌ o ❤️ cada día</small>
+      </div>
+    </header>
 
-    <div class="controls">
-      <button id="clear">Limpiar marcas</button>
-      <button id="print" class="ghost">Imprimir / Guardar PDF</button>
-    </div>
+    <div class="controls">
+      <button id="clear">Limpiar marcas</button>
+      <button id="print" class="ghost">Imprimir / Guardar PDF</button>
+    </div>
 
-    <div class="poster" id="poster"></div>
+    <div class="poster" id="poster"></div>
 
-    <div class="legend">
-      <div class="chip">❌ Día completado</div>
-      <div class="chip">❤️ Día especial</div>
-      <div style="flex:1"></div>
-      <div class="chip">🌸 22 de marzo — ¡Vuelve a casa!</div>
-    </div>
+    <div class="legend">
+      <div class="chip">❌ Día completado</div>
+      <div class="chip">❤️ Día especial</div>
+      <div style="flex:1"></div>
+      <div class="chip">🌸 22 de marzo — ¡Vuelve a casa!</div>
+    </div>
 
-    <p class="notes">
-      Sugerencia: guarda la página en tu computador como <code>cuenta_atras.html</code> y ábrela en el navegador.
-      Las marcas se guardarán en este navegador (localStorage).
-    </p>
-  </div>
+        <div class="notes">
+      <div class="messages-box">
+        <h2 class="msg-title">100 Mensajes para que me sientas cerquita cada día ❤️</h2>
+
+        <button class="toggle-btn" onclick="toggleMessages()">Mostrar mensajes</button>
+
+        <div id="messages" class="messages hidden">
+          <ol>
+            <li>Eres mi pensamiento favorito del día.</li>
+            <li>Faltas tú aquí... pero te siento conmigo.</li>
+            <li>Te amo en todos mis futuros posibles.</li>
+            <li>Gracias por existir cerquita de mi vida.</li>
+            <li>Tu voz es mi lugar seguro.</li>
+            <li>Si tú estás bien, yo soy feliz.</li>
+            <li>Te extraño con cariño, no con tristeza.</li>
+            <li>Un día menos para abrazarte.</li>
+            <li>Eres todo lo bonito que no sabía pedir.</li>
+            <li>Qué suerte la mía de coincidir contigo.</li>
+            <li>Mi corazón sonríe cuando piensa en ti.</li>
+            <li>Nada en mí se olvida de ti.</li>
+            <li>Tu felicidad es mi prioridad.</li>
+            <li>Así lejos, igual te cuido.</li>
+            <li>Te quiero en calma, te quiero feliz.</li>
+            <li>Qué rico es quererte bonito.</li>
+            <li>Hoy también pensé en ti.</li>
+            <li>Eres mi persona favorita, sin duda.</li>
+            <li>Gracias por quedarte en mi vida.</li>
+            <li>Todo es más bonito contigo.</li>
+            <li>Un te extraño, pero de los que sonríen.</li>
+            <li>Eres mi mejor historia.</li>
+            <li>Te amo con la certeza más bonita.</li>
+            <li>Tú haces que todo valga la pena.</li>
+            <li>Paciencia, mi amor… ya falta poco.</li>
+            <li>Estoy orgulloso de ti.</li>
+            <li>Me encanta cómo eres.</li>
+            <li>Gracias por hacerme mejor persona.</li>
+            <li>Eres magia en mi vida.</li>
+            <li>Siempre serás mi lugar favorito.</li>
+            <li>Te pienso más de lo que crees.</li>
+            <li>Te quiero abrazar fuerte.</li>
+            <li>Me haces muy feliz.</li>
+            <li>Tu risa es sonido de hogar.</li>
+            <li>Contigo todo es más ligero.</li>
+            <li>Gracias por tu paciencia.</li>
+            <li>Eres ternura pura.</li>
+            <li>Mi corazón te reconoce.</li>
+            <li>Te quiero cerquita siempre.</li>
+            <li>Qué bonita eres, de verdad.</li>
+            <li>Yo te elijo todos los días.</li>
+            <li>Me haces querer ser mejor.</li>
+            <li>Te mereces el mundo.</li>
+            <li>Voy contando los días.</li>
+            <li>No hay distancia que cambie lo que siento.</li>
+            <li>Eres mi mejor casualidad.</li>
+            <li>Prometo cuidarte siempre.</li>
+            <li>Tengo ganas de ti.</li>
+            <li>Gracias por tu amorcito.</li>
+            <li>Tu sonrisa me puede.</li>
+            <li>Mi corazón late pensando en ti.</li>
+            <li>Tu presencia es paz.</li>
+            <li>Qué bonita pareja somos.</li>
+            <li>No te imaginas cuánto te quiero.</li>
+            <li>Tú y yo… siempre.</li>
+            <li>Siempre voy a estar aquí para ti.</li>
+            <li>Me haces sentir especial.</li>
+            <li>Eres un sueño hecho persona.</li>
+            <li>Estoy loco por ti.</li>
+            <li>Te quiero cerquita, siempre.</li>
+            <li>Qué rico es tenerte en mi vida.</li>
+            <li>Eres mi favorita.</li>
+            <li>Gracias por tu luz.</li>
+            <li>Me encanta amarte.</li>
+            <li>Eres perfecta para mí.</li>
+            <li>Te extraño, pero con amor.</li>
+            <li>Eres la razón de mis mejores días.</li>
+            <li>No existe nadie como tú.</li>
+            <li>Eres hogar, amor y paz.</li>
+            <li>Quisiera tenerte aquí ahora mismo.</li>
+            <li>Mi amor por ti es bonito, sano y real.</li>
+            <li>Te pienso a cada ratito.</li>
+            <li>Gracias por tu cariño.</li>
+            <li>Eres lo mejor que me pasó este año.</li>
+            <li>Mi corazón sonríe con tu nombre.</li>
+            <li>Te cuido aunque no me veas.</li>
+            <li>Tu amor es mi motivación.</li>
+            <li>Te adoro, mi Diana.</li>
+            <li>Eres mi solcito.</li>
+            <li>Siempre voy a elegirte.</li>
+            <li>Contigo todo es más fácil.</li>
+            <li>Eres mi alegría diaria.</li>
+            <li>Mi corazón es tuyo.</li>
+            <li>Te extraño bonito.</li>
+            <li>Me haces sentir amado.</li>
+            <li>Quiero un futuro contigo.</li>
+            <li>Eres paz, eres amor.</li>
+            <li>Eres la historia que siempre quise vivir.</li>
+            <li>Vuelve pronto, amorcito.</li>
+            <li>Tú vales todo.</li>
+            <li>Mi mundo eres tú.</li>
+            <li>Faltas tú aquí conmigo.</li>
+            <li>Te amo con todo lo que soy.</li>
+            <li>Gracias por ser tú.</li>
+            <li>Cada día es un día menos para verte.</li>
+            <li>Siempre serás mi amorcito lindo.</li>
+            <li>Ya quiero abrazarte fuerte.</li>
+            <li>Cuenta los días… yo te espero.</li>
+            <li>Eres mi mejor decisión.</li>
+            <li>Te amo hoy, mañana y siempre.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script>
-  /* login */
-  function checkPass(){
-    const p = document.getElementById("pass").value;
-    if(p === "2006"){
-      document.getElementById("login").style.display="none";
-      document.getElementById("content").style.display="block";
-    } else {
-      alert("Clave incorrecta, mi amor ❤️");
-    }
-  }
+  /* login */
+  function checkPass(){
+    const p = document.getElementById("pass").value;
+    // La contraseña es '2006' (nuestra fecha: 20/06)
+    if(p === "2006"){
+      document.getElementById("login").style.display="none";
+      document.getElementById("content").style.display="block";
+    } else {
+      alert("Clave incorrecta, mi amor ❤️");
+    }
+  }
 
-  /* tu script original */
-  const now = new Date();
-  const startYear = now.getFullYear();
-  const start = new Date(startYear, 11, 11);
-  const end = new Date(start.getFullYear()+1, 2, 22);
+  /* función para mostrar/ocultar mensajes */
+  function toggleMessages() {
+    const messagesDiv = document.getElementById("messages");
+    const button = document.querySelector(".toggle-btn");
+    
+    if (messagesDiv.classList.contains("hidden")) {
+      messagesDiv.classList.remove("hidden");
+      button.textContent = "Ocultar mensajes";
+    } else {
+      messagesDiv.classList.add("hidden");
+      button.textContent = "Mostrar mensajes";
+    }
+  }
 
-  const poster = document.getElementById('poster');
+  /* tu script original */
+  const now = new Date();
+  const startYear = now.getFullYear();
+  // 11 de diciembre del año actual
+  const start = new Date(startYear, 11, 11);
+  // 22 de marzo del próximo año
+  const end = new Date(start.getFullYear()+1, 2, 22);
 
-  const months = [
-    {name: 'Diciembre', year: start.getFullYear(), from: 11, startDay: 11, endDay: 31, hint: 'Tu primer mes lejos, pero aquí sigo contigo.'},
-    {name: 'Enero', year: start.getFullYear()+1, from: 0, startDay: 1, endDay: 31, hint: 'Un nuevo año, pero mi amor por ti sigue siendo el mismo.'},
-    {name: 'Febrero', year: start.getFullYear()+1, from: 1, startDay: 1, endDay: null, hint: 'Falta poco… muy poco. Cada día te acerca a mí.'},
-    {name: 'Marzo', year: start.getFullYear()+1, from: 2, startDay: 1, endDay: 22, hint: ''}
-  ];
+  const poster = document.getElementById('poster');
 
-  function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
-  if(months[2].endDay === null){ months[2].endDay = daysInMonth(months[2].year,1); }
+  const months = [
+    {name: 'Diciembre', year: start.getFullYear(), from: 11, startDay: 11, endDay: 31, hint: 'Tu primer mes lejos, pero aquí sigo contigo.'},
+    {name: 'Enero', year: start.getFullYear()+1, from: 0, startDay: 1, endDay: 31, hint: 'Un nuevo año, pero mi amor por ti sigue siendo el mismo.'},
+    {name: 'Febrero', year: start.getFullYear()+1, from: 1, startDay: 1, endDay: null, hint: 'Falta poco… muy poco. Cada día te acerca a mí.'},
+    {name: 'Marzo', year: start.getFullYear()+1, from: 2, startDay: 1, endDay: 22, hint: ''}
+  ];
 
-  const LSKEY = 'cuenta_atras_marcas_' + start.getFullYear() + '_' + (start.getFullYear()+1);
-  let marks = JSON.parse(localStorage.getItem(LSKEY) || '{}');
+  function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
+  // Calcula días de febrero
+  if(months[2].endDay === null){ months[2].endDay = daysInMonth(months[2].year,1); }
 
-  months.forEach((m)=>{
-    const col = document.createElement('div');
-    col.className = 'month';
-    const title = document.createElement('h3');
-    title.textContent = m.name + ' ' + m.year;
-    col.appendChild(title);
-    if(m.hint){
-      const hint = document.createElement('div');
-      hint.className='hint';
-      hint.textContent = m.hint;
-      col.appendChild(hint);
-    }
+  const LSKEY = 'cuenta_atras_marcas_' + start.getFullYear() + '_' + (start.getFullYear()+1);
+  let marks = JSON.parse(localStorage.getItem(LSKEY) || '{}');
 
-    const grid = document.createElement('div');
-    grid.className = 'grid';
+  months.forEach((m)=>{
+    const col = document.createElement('div');
+    col.className = 'month';
+    const title = document.createElement('h3');
+    title.textContent = m.name + ' ' + m.year;
+    col.appendChild(title);
+    if(m.hint){
+      const hint = document.createElement('div');
+      hint.className='hint';
+      hint.textContent = m.hint;
+      col.appendChild(hint);
+    }
 
-    const weekNames = ['L','M','M','J','V','S','D'];
-    weekNames.forEach(w=>{
-      const wEl = document.createElement('div');
-      wEl.className='day small disabled';
-      wEl.style.fontWeight=700;
-      wEl.textContent = w;
-      grid.appendChild(wEl);
-    });
+    const grid = document.createElement('div');
+    grid.className = 'grid';
 
-    const firstWeekday = new Date(m.year, m.from, m.startDay).getDay();
-    const jsToGrid = d => (d + 6) % 7;
-    const offset = jsToGrid(firstWeekday);
+    const weekNames = ['L','M','M','J','V','S','D'];
+    weekNames.forEach(w=>{
+      const wEl = document.createElement('div');
+      wEl.className='day small disabled';
+      wEl.style.fontWeight=700;
+      wEl.textContent = w;
+      grid.appendChild(wEl);
+    });
 
-    for(let b=0;b<offset;b++){
-      const blank = document.createElement('div');
-      blank.className='day disabled';
-      grid.appendChild(blank);
-    }
+    const firstWeekday = new Date(m.year, m.from, m.startDay).getDay();
+    const jsToGrid = d => (d + 6) % 7;
+    const offset = jsToGrid(firstWeekday);
 
-    const endDay = m.endDay;
-    for(let d = m.startDay; d<=endDay; d++){
-      const date = new Date(m.year, m.from, d);
+    for(let b=0;b<offset;b++){
+      const blank = document.createElement('div');
+      blank.className='day disabled';
+      grid.appendChild(blank);
+    }
 
-      if(date < start || date > end) {
-        const blank = document.createElement('div');
-        blank.className='day disabled';
-        grid.appendChild(blank);
-        continue;
-      }
+    const endDay = m.endDay;
+    for(let d = m.startDay; d<=endDay; d++){
+      const date = new Date(m.year, m.from, d);
 
-      const cell = document.createElement('div');
-      cell.className='day';
-      const dateLabel = document.createElement('div');
-      dateLabel.className='date';
-      dateLabel.textContent = d;
-      cell.appendChild(dateLabel);
-      const mark = document.createElement('div');
-      mark.className='mark';
-      const key = date.toISOString().slice(0,10);
-      if(marks[key]){ mark.textContent = marks[key]; }
-      cell.appendChild(mark);
+      if(date < start || date > end) {
+        const blank = document.createElement('div');
+        blank.className='day disabled';
+        grid.appendChild(blank);
+        continue;
+      }
 
-      if(date.getMonth()===2 && date.getDate()===22){
-        cell.classList.add('special');
-        cell.innerHTML = '<div class="special"><div class="big">🌸 Hoy vuelves a casa… y a mí.</div><div class="sub">(❤️ J + D)</div></div>';
-      } else {
-        cell.addEventListener('click', ()=>{
-          const cur = marks[key] || '';
-          const next = cur === '' ? '❌' : (cur === '❌' ? '❤️' : '');
-          marks[key] = next;
-          if(next === '') delete marks[key];
-          localStorage.setItem(LSKEY, JSON.stringify(marks));
-          mark.textContent = next;
-        });
-      }
+      const cell = document.createElement('div');
+      cell.className='day';
+      
+      const dateLabel = document.createElement('div');
+      dateLabel.className='date';
+      dateLabel.textContent = d;
+      cell.appendChild(dateLabel);
+      
+      const key = date.toISOString().slice(0,10);
+      
+      // *** Lógica del día especial (22 de marzo) ***
+      if(date.getMonth()===2 && date.getDate()===22){
+        cell.classList.add('special');
+        
+        // Creamos un DIV para el contenido especial y lo inyectamos
+        const specialContent = document.createElement('div');
+        // Usamos innerHTML aquí, pero solo dentro del nuevo DIV
+        specialContent.innerHTML = '<span class="big">EL DIA</span><span class="sub">🌸 ¡Vuelve!</span>';
+        cell.appendChild(specialContent);
+        
+      } else {
+        // *** Lógica de los días normales (Marcado) ***
+        
+        const mark = document.createElement('div');
+        mark.className='mark';
+        if(marks[key]){ mark.textContent = marks[key]; }
+        cell.appendChild(mark);
 
-      grid.appendChild(cell);
-    }
+        // Evento click para marcar
+        cell.addEventListener('click', ()=>{
+          const cur = marks[key] || '';
+          const next = cur === '' ? '❌' : (cur === '❌' ? '❤️' : '');
+          marks[key] = next;
+          if(next === '') delete marks[key];
+          localStorage.setItem(LSKEY, JSON.stringify(marks));
+          mark.textContent = next;
+        });
+      }
+      // Fin de la lógica de días
+      
+      grid.appendChild(cell);
+    }
 
-    col.appendChild(grid);
-    poster.appendChild(col);
-  });
+    col.appendChild(grid);
+    poster.appendChild(col);
+  });
 
-  document.getElementById('clear').addEventListener('click', ()=>{
-    if(confirm('¿Borrar todas las marcas?')){
-      marks = {};
-      localStorage.removeItem(LSKEY);
-      location.reload();
-    }
-  });
-  document.getElementById('print').addEventListener('click', ()=> window.print());
+  document.getElementById('clear').addEventListener('click', ()=>{
+    if(confirm('¿Borrar todas las marcas?')){
+      marks = {};
+      localStorage.removeItem(LSKEY);
+      location.reload();
+    }
+  });
+  document.getElementById('print').addEventListener('click', ()=> window.print());
 </script>
 
 </body>
