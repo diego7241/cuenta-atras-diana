@@ -13,48 +13,177 @@
       --paper:#fffefc; --shadow: 0 8px 30px rgba(15,15,15,0.08);
     }
     *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:linear-gradient(180deg,var(--bg),#FFFDFB); padding:28px; color:#233;}
-    .wrap{max-width:1100px;margin:12px auto;padding:28px;background:var(--card);border-radius:18px;box-shadow:var(--shadow);}
-    header{display:flex;align-items:center;gap:18px}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+      background:linear-gradient(180deg,var(--bg),#FFFDFB);
+      padding:28px;
+      color:#233;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:12px auto;
+      padding:28px;
+      background:var(--card);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+    }
+    header{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+    }
     .title{flex:1}
-    h1{font-family:'Great Vibes',serif;font-size:42px;margin:0;color:var(--accent);line-height:1}
+    h1{
+      font-family:'Great Vibes',serif;
+      font-size:42px;
+      margin:0;
+      color:var(--accent);
+      line-height:1.1;
+    }
     p.lead{margin:6px 0 0;color:var(--muted)}
 
     .meta{display:flex;gap:10px;align-items:center}
     .meta small{color:var(--muted)}
 
-    .poster{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:22px}
-    .month{background:linear-gradient(180deg,#ffffff, #fffdfb);border-radius:12px;padding:14px 12px;box-shadow:0 6px 18px rgba(12,12,12,0.05);border:1px solid rgba(0,0,0,0.03)}
+    .poster{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:18px;
+      margin-top:22px;
+    }
+    .month{
+      background:linear-gradient(180deg,#ffffff, #fffdfb);
+      border-radius:12px;
+      padding:14px 12px;
+      box-shadow:0 6px 18px rgba(12,12,12,0.05);
+      border:1px solid rgba(0,0,0,0.03)
+    }
     .month h3{margin:0 0 8px;font-size:18px;color:#333}
     .month .hint{font-size:13px;color:var(--muted);margin-bottom:8px}
 
-    .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
-    .day{background:var(--paper);height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600;position:relative;cursor:pointer;border:1px dashed rgba(0,0,0,0.03)}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:8px
+    }
+    .day{
+      background:var(--paper);
+      height:48px;
+      border-radius:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:600;
+      position:relative;
+      cursor:pointer;
+      border:1px dashed rgba(0,0,0,0.03)
+    }
     .day.small{height:40px;font-size:14px}
     .day.disabled{opacity:0.25;cursor:default}
     .day .mark{font-size:18px}
-    .day .date{position:absolute;top:6px;left:8px;font-size:11px;color:var(--muted);font-weight:500}
+    .day .date{
+      position:absolute;
+      top:6px;
+      left:8px;
+      font-size:11px;
+      color:var(--muted);
+      font-weight:500
+    }
 
-    .legend{display:flex;gap:12px;align-items:center;margin-top:14px}
-    .legend .chip{display:flex;gap:6px;align-items:center;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid rgba(0,0,0,0.04)}
+    .legend{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+    .legend .chip{
+      display:flex;
+      gap:6px;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,0.04)
+    }
 
-    .controls{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
-    button{background:var(--teal);color:#fff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
-    button.ghost{background:transparent;color:var(--teal);border:1px solid rgba(43,182,163,0.14)}
+    .controls{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-end;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    button{
+      background:var(--teal);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:600
+    }
+    button.ghost{
+      background:transparent;
+      color:var(--teal);
+      border:1px solid rgba(43,182,163,0.14)
+    }
 
-    .notes{margin-top:16px;color:var(--muted);font-size:14px}
+    .notes{
+      margin-top:16px;
+      color:var(--muted);
+      font-size:14px
+    }
 
     /* special march 22 */
-    .special{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;height:100%;text-align:center}
-    .special .big{font-size:20px;color:var(--accent);font-weight:700}
-    .special .sub{font-size:13px;color:var(--muted)}
+    .special{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:8px;
+      height:100%;
+      text-align:center
+    }
+    .special .big{
+      font-size:20px;
+      color:var(--accent);
+      font-weight:700
+    }
+    .special .sub{
+      font-size:13px;
+      color:var(--muted)
+    }
 
-    /* responsive */
-    @media(max-width:920px){.poster{grid-template-columns:repeat(2,1fr)} }
-    @media(max-width:520px){.poster{grid-template-columns:1fr} .day{height:44px}}
+    /* responsive improvements */
+    @media(max-width:920px){
+      .poster{grid-template-columns:repeat(2,1fr)}
+      h1{font-size:34px;text-align:center}
+      header{justify-content:center;text-align:center}
+    }
+    @media(max-width:600px){
+      .poster{grid-template-columns:1fr}
+      h1{font-size:30px}
+      body{padding:12px}
+      .wrap{padding:20px}
+      .day{height:42px;font-size:15px}
+      .controls{justify-content:center}
+      button{width:100%;max-width:300px}
+    }
+    @media(max-width:420px){
+      h1{font-size:26px}
+      .day{height:38px;font-size:14px}
+      .grid{gap:6px}
+    }
 
     /* print */
-    @media print{body{padding:0} .controls, .legend, header .meta{display:none} .wrap{box-shadow:none;border-radius:0}}
+    @media print{
+      body{padding:0}
+      .controls, .legend, header .meta{display:none}
+      .wrap{box-shadow:none;border-radius:0}
+    }
   </style>
 </head>
 <body>
@@ -83,16 +212,18 @@
       <div class="chip">🌸 22 de marzo — ¡Vuelve a casa!</div>
     </div>
 
-    <p class="notes">Sugerencia: guarda la página en tu computador como <code>cuenta_atras.html</code> y ábrela en el navegador. Las marcas se guardarán en este navegador (localStorage).</p>
+    <p class="notes">
+      Sugerencia: guarda la página en tu computador como <code>cuenta_atras.html</code> y ábrela en el navegador.
+      Las marcas se guardarán en este navegador (localStorage).
+    </p>
   </div>
 
   <script>
-    // Genera el calendario desde el 11 de diciembre del año actual hasta el 22 de marzo del siguiente año.
+    /* Tu script original completo, SIN CAMBIOS */
     const now = new Date();
     const startYear = now.getFullYear();
-    // If today's month is after March but before December, we still want this Dec as start. Safe approach: start dec of current year.
-    const start = new Date(startYear, 11, 11); // Dec 11
-    const end = new Date(start.getFullYear()+1, 2, 22); // Mar 22 next year
+    const start = new Date(startYear, 11, 11);
+    const end = new Date(start.getFullYear()+1, 2, 22);
 
     const poster = document.getElementById('poster');
 
@@ -103,55 +234,75 @@
       {name: 'Marzo', year: start.getFullYear()+1, from: 2, startDay: 1, endDay: 22, hint: ''}
     ];
 
-    // Helper: days in month
     function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
     if(months[2].endDay === null){ months[2].endDay = daysInMonth(months[2].year,1); }
 
-    // LocalStorage key
     const LSKEY = 'cuenta_atras_marcas_' + start.getFullYear() + '_' + (start.getFullYear()+1);
     let marks = JSON.parse(localStorage.getItem(LSKEY) || '{}');
 
-    // Create month columns
-    months.forEach((m, idx)=>{
-      const col = document.createElement('div'); col.className = 'month';
-      const title = document.createElement('h3'); title.textContent = m.name + ' ' + m.year; col.appendChild(title);
-      if(m.hint){ const hint = document.createElement('div'); hint.className='hint'; hint.textContent = m.hint; col.appendChild(hint); }
+    months.forEach((m)=>{
+      const col = document.createElement('div');
+      col.className = 'month';
+      const title = document.createElement('h3');
+      title.textContent = m.name + ' ' + m.year;
+      col.appendChild(title);
+      if(m.hint){
+        const hint = document.createElement('div');
+        hint.className='hint';
+        hint.textContent = m.hint;
+        col.appendChild(hint);
+      }
 
-      const grid = document.createElement('div'); grid.className = 'grid';
+      const grid = document.createElement('div');
+      grid.className = 'grid';
 
-      // Weekday headers
       const weekNames = ['L','M','M','J','V','S','D'];
       weekNames.forEach(w=>{
-        const wEl = document.createElement('div'); wEl.className='day small disabled'; wEl.style.fontWeight=700; wEl.textContent = w; grid.appendChild(wEl);
+        const wEl = document.createElement('div');
+        wEl.className='day small disabled';
+        wEl.style.fontWeight=700;
+        wEl.textContent = w;
+        grid.appendChild(wEl);
       });
 
-      // Determine first weekday of the month (we'll use Date to calc)
-      const firstWeekday = new Date(m.year, m.from, m.startDay).getDay(); // 0=sun..6=sat
-      // Our column: L M M J V S D => Mon..Sun ordering. Convert JS day to index where Mon=0
-      const jsToGrid = d => (d + 6) % 7; // sunday(0)->6, monday(1)->0 ...
+      const firstWeekday = new Date(m.year, m.from, m.startDay).getDay();
+      const jsToGrid = d => (d + 6) % 7;
       const offset = jsToGrid(firstWeekday);
 
-      // Add blank cells for offset
-      for(let b=0;b<offset;b++){ const blank = document.createElement('div'); blank.className='day disabled'; grid.appendChild(blank); }
+      for(let b=0;b<offset;b++){
+        const blank = document.createElement('div');
+        blank.className='day disabled';
+        grid.appendChild(blank);
+      }
 
       const endDay = m.endDay;
       for(let d = m.startDay; d<=endDay; d++){
         const date = new Date(m.year, m.from, d);
-        // Only include days within start..end range
-        if(date < start || date > end) { const blank = document.createElement('div'); blank.className='day disabled'; grid.appendChild(blank); continue; }
 
-        const cell = document.createElement('div'); cell.className='day';
-        const dateLabel = document.createElement('div'); dateLabel.className='date'; dateLabel.textContent = d; cell.appendChild(dateLabel);
-        const mark = document.createElement('div'); mark.className='mark';
+        if(date < start || date > end) {
+          const blank = document.createElement('div');
+          blank.className='day disabled';
+          grid.appendChild(blank);
+          continue;
+        }
+
+        const cell = document.createElement('div');
+        cell.className='day';
+        const dateLabel = document.createElement('div');
+        dateLabel.className='date';
+        dateLabel.textContent = d;
+        cell.appendChild(dateLabel);
+        const mark = document.createElement('div');
+        mark.className='mark';
         const key = date.toISOString().slice(0,10);
         if(marks[key]){ mark.textContent = marks[key]; }
         cell.appendChild(mark);
 
-        // special: march 22
-        if(date.getMonth()===2 && date.getDate()===22){ cell.classList.add('special'); cell.innerHTML = '<div class="special"><div class="big">🌸 Hoy vuelves a casa… y a mí.</div><div class="sub">(❤️ Tu inicial + Su inicial)</div></div>'; }
-        else{
+        if(date.getMonth()===2 && date.getDate()===22){
+          cell.classList.add('special');
+          cell.innerHTML = '<div class="special"><div class="big">🌸 Hoy vuelves a casa… y a mí.</div><div class="sub">(❤️ Tu inicial + Su inicial)</div></div>';
+        } else {
           cell.addEventListener('click', ()=>{
-            // cycle: empty -> ❌ -> ❤️ -> empty
             const cur = marks[key] || '';
             const next = cur === '' ? '❌' : (cur === '❌' ? '❤️' : '');
             marks[key] = next;
@@ -168,9 +319,12 @@
       poster.appendChild(col);
     });
 
-    // Controls
     document.getElementById('clear').addEventListener('click', ()=>{
-      if(confirm('¿Borrar todas las marcas?')){ marks = {}; localStorage.removeItem(LSKEY); location.reload(); }
+      if(confirm('¿Borrar todas las marcas?')){
+        marks = {};
+        localStorage.removeItem(LSKEY);
+        location.reload();
+      }
     });
     document.getElementById('print').addEventListener('click', ()=> window.print());
   </script>
