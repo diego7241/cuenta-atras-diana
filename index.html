@@ -7,77 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+  
   <style>
     :root{
       --bg:#FFF8F3; --card:#ffffff; --muted:#9b9b9b; --accent:#ff7a6b; --teal:#2bb6a3;
       --paper:#fffefc; --shadow: 0 8px 30px rgba(15,15,15,0.08);
     }
-
-    /* ---------------------- */
-    /*  PANTALLA DE CONTRASEÑA */
-    /* ---------------------- */
-
-    #lock-screen{
-      position:fixed;
-      inset:0;
-      background:#fff;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      z-index:9999;
-      font-family:Inter, sans-serif;
-      padding:20px;
-      text-align:center;
-    }
-
-    #lock-screen h2{
-      font-size:28px;
-      color:var(--accent);
-      font-family:'Great Vibes', serif;
-      margin-bottom:10px;
-    }
-
-    #lock-screen p{
-      color:#555;
-      margin-bottom:18px;
-      font-size:15px;
-    }
-
-    #password-input{
-      padding:10px 14px;
-      width:220px;
-      font-size:16px;
-      border:1px solid #ddd;
-      border-radius:10px;
-      text-align:center;
-      outline:none;
-    }
-
-    #unlock-btn{
-      margin-top:12px;
-      padding:10px 18px;
-      background:var(--teal);
-      color:#fff;
-      border:none;
-      border-radius:10px;
-      font-weight:600;
-      cursor:pointer;
-      width:220px;
-    }
-
-    #error-msg{
-      margin-top:10px;
-      color:red;
-      font-size:14px;
-      display:none;
-    }
-
-    /* ---------------------- */
-    /*    TU DISEÑO ORIGINAL  */
-    /* ---------------------- */
-
     *{box-sizing:border-box}
     body{
       font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
@@ -92,7 +27,9 @@
       background:var(--card);
       border-radius:18px;
       box-shadow:var(--shadow);
+      display:none; /* oculto hasta validar contraseña */
     }
+
     header{
       display:flex;
       align-items:center;
@@ -203,25 +140,32 @@
       font-size:14px
     }
 
-    .special{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      padding:8px;
-      height:100%;
-      text-align:center
+    /* FIX ESPECIAL — evita que marzo se descuadre */
+    .day.special {
+      height: 48px !important;
+      padding: 0 !important;
+      overflow: hidden;
+      position: relative;
     }
-    .special .big{
-      font-size:20px;
-      color:var(--accent);
-      font-weight:700
+    .day.special .special {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
     }
-    .special .sub{
-      font-size:13px;
-      color:var(--muted)
+    .day.special .big {
+      font-size: 12px !important;
+      line-height: 1.1;
+    }
+    .day.special .sub {
+      font-size: 10px !important;
+      line-height: 1;
     }
 
+    /* responsive */
     @media(max-width:920px){
       .poster{grid-template-columns:repeat(2,1fr)}
       h1{font-size:34px;text-align:center}
@@ -242,26 +186,53 @@
       .grid{gap:6px}
     }
 
+    /* print */
     @media print{
       body{padding:0}
       .controls, .legend, header .meta{display:none}
       .wrap{box-shadow:none;border-radius:0}
+    }
+
+    /* pantalla de contraseña */
+    #login{
+      max-width:380px;
+      margin:50px auto;
+      padding:24px;
+      background:white;
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+    #login input{
+      width:100%;
+      padding:12px;
+      margin-top:12px;
+      font-size:16px;
+      border-radius:8px;
+      border:1px solid #ccc;
+    }
+    #login button{
+      width:100%;
+      margin-top:14px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- PANTALLA DE CONTRASEÑA -->
-  <div id="lock-screen">
-    <h2>Un detallito solo para ti ❤️</h2>
-    <p>Ingresa la contraseña para entrar</p>
-    <input id="password-input" type="password" placeholder="Contraseña" />
-    <button id="unlock-btn">Entrar</button>
-    <div id="error-msg">Contraseña incorrecta</div>
+  <!-- LOGIN -->
+  <div id="login">
+    <h2 style="font-family:'Great Vibes';color:var(--accent);font-size:32px;margin:0 0 10px;">
+      Para mi amorcito ❤️
+    </h2>
+    <p>Ingresa la clave especial:</p>
+    <input type="password" id="pass" placeholder="••••" />
+    <button onclick="checkPass()">Entrar</button>
+    <p style="color:var(--muted);font-size:13px;margin-top:6px">Pista: nuestra fecha 💕</p>
   </div>
 
-  <div class="wrap" id="content" style="display:none;">
+  <!-- CONTENIDO REAL -->
+  <div class="wrap" id="content">
     <header>
       <div class="title">
         <h1>Cada día que pasa, es un día menos para volver a ti.</h1>
@@ -292,145 +263,127 @@
     </p>
   </div>
 
+<script>
+  /* login */
+  function checkPass(){
+    const p = document.getElementById("pass").value;
+    if(p === "2006"){
+      document.getElementById("login").style.display="none";
+      document.getElementById("content").style.display="block";
+    } else {
+      alert("Clave incorrecta, mi amor ❤️");
+    }
+  }
 
-  <script>
-    /* ---------------------- */
-    /* SISTEMA DE CONTRASEÑA */
-    /* ---------------------- */
+  /* tu script original */
+  const now = new Date();
+  const startYear = now.getFullYear();
+  const start = new Date(startYear, 11, 11);
+  const end = new Date(start.getFullYear()+1, 2, 22);
 
-    const unlockBtn = document.getElementById("unlock-btn");
-    const passwordInput = document.getElementById("password-input");
-    const errorMsg = document.getElementById("error-msg");
-    const lockScreen = document.getElementById("lock-screen");
-    const content = document.getElementById("content");
+  const poster = document.getElementById('poster');
 
-    unlockBtn.addEventListener("click", ()=>{
-      if(passwordInput.value.trim() === "2006"){
-        lockScreen.style.display = "none";
-        content.style.display = "block";
-      } else {
-        errorMsg.style.display = "block";
-      }
+  const months = [
+    {name: 'Diciembre', year: start.getFullYear(), from: 11, startDay: 11, endDay: 31, hint: 'Tu primer mes lejos, pero aquí sigo contigo.'},
+    {name: 'Enero', year: start.getFullYear()+1, from: 0, startDay: 1, endDay: 31, hint: 'Un nuevo año, pero mi amor por ti sigue siendo el mismo.'},
+    {name: 'Febrero', year: start.getFullYear()+1, from: 1, startDay: 1, endDay: null, hint: 'Falta poco… muy poco. Cada día te acerca a mí.'},
+    {name: 'Marzo', year: start.getFullYear()+1, from: 2, startDay: 1, endDay: 22, hint: ''}
+  ];
+
+  function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
+  if(months[2].endDay === null){ months[2].endDay = daysInMonth(months[2].year,1); }
+
+  const LSKEY = 'cuenta_atras_marcas_' + start.getFullYear() + '_' + (start.getFullYear()+1);
+  let marks = JSON.parse(localStorage.getItem(LSKEY) || '{}');
+
+  months.forEach((m)=>{
+    const col = document.createElement('div');
+    col.className = 'month';
+    const title = document.createElement('h3');
+    title.textContent = m.name + ' ' + m.year;
+    col.appendChild(title);
+    if(m.hint){
+      const hint = document.createElement('div');
+      hint.className='hint';
+      hint.textContent = m.hint;
+      col.appendChild(hint);
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+
+    const weekNames = ['L','M','M','J','V','S','D'];
+    weekNames.forEach(w=>{
+      const wEl = document.createElement('div');
+      wEl.className='day small disabled';
+      wEl.style.fontWeight=700;
+      wEl.textContent = w;
+      grid.appendChild(wEl);
     });
 
-    passwordInput.addEventListener("keydown", (e)=>{
-      if(e.key === "Enter"){
-        unlockBtn.click();
-      }
-    });
+    const firstWeekday = new Date(m.year, m.from, m.startDay).getDay();
+    const jsToGrid = d => (d + 6) % 7;
+    const offset = jsToGrid(firstWeekday);
 
+    for(let b=0;b<offset;b++){
+      const blank = document.createElement('div');
+      blank.className='day disabled';
+      grid.appendChild(blank);
+    }
 
-    /* ---------------------- */
-    /*  TU SCRIPT ORIGINALl    */
-    /* ---------------------- */
+    const endDay = m.endDay;
+    for(let d = m.startDay; d<=endDay; d++){
+      const date = new Date(m.year, m.from, d);
 
-    const now = new Date();
-    const startYear = now.getFullYear();
-    const start = new Date(startYear, 11, 11);
-    const end = new Date(start.getFullYear()+1, 2, 22);
-
-    const poster = document.getElementById('poster');
-
-    const months = [
-      {name: 'Diciembre', year: start.getFullYear(), from: 11, startDay: 11, endDay: 31, hint: 'Tu primer mes lejos, pero aquí sigo contigo.'},
-      {name: 'Enero', year: start.getFullYear()+1, from: 0, startDay: 1, endDay: 31, hint: 'Un nuevo año, pero mi amor por ti sigue siendo el mismo.'},
-      {name: 'Febrero', year: start.getFullYear()+1, from: 1, startDay: 1, endDay: null, hint: 'Falta poco… muy poco. Cada día te acerca a mí.'},
-      {name: 'Marzo', year: start.getFullYear()+1, from: 2, startDay: 1, endDay: 22, hint: ''}
-    ];
-
-    function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
-    if(months[2].endDay === null){ months[2].endDay = daysInMonth(months[2].year,1); }
-
-    const LSKEY = 'cuenta_atras_marcas_' + start.getFullYear() + '_' + (start.getFullYear()+1);
-    let marks = JSON.parse(localStorage.getItem(LSKEY) || '{}');
-
-    months.forEach((m)=>{
-      const col = document.createElement('div');
-      col.className = 'month';
-      const title = document.createElement('h3');
-      title.textContent = m.name + ' ' + m.year;
-      col.appendChild(title);
-      if(m.hint){
-        const hint = document.createElement('div');
-        hint.className='hint';
-        hint.textContent = m.hint;
-        col.appendChild(hint);
-      }
-
-      const grid = document.createElement('div');
-      grid.className = 'grid';
-
-      const weekNames = ['L','M','M','J','V','S','D'];
-      weekNames.forEach(w=>{
-        const wEl = document.createElement('div');
-        wEl.className='day small disabled';
-        wEl.style.fontWeight=700;
-        wEl.textContent = w;
-        grid.appendChild(wEl);
-      });
-
-      const firstWeekday = new Date(m.year, m.from, m.startDay).getDay();
-      const jsToGrid = d => (d + 6) % 7;
-      const offset = jsToGrid(firstWeekday);
-
-      for(let b=0;b<offset;b++){
+      if(date < start || date > end) {
         const blank = document.createElement('div');
         blank.className='day disabled';
         grid.appendChild(blank);
+        continue;
       }
 
-      const endDay = m.endDay;
-      for(let d = m.startDay; d<=endDay; d++){
-        const date = new Date(m.year, m.from, d);
+      const cell = document.createElement('div');
+      cell.className='day';
+      const dateLabel = document.createElement('div');
+      dateLabel.className='date';
+      dateLabel.textContent = d;
+      cell.appendChild(dateLabel);
+      const mark = document.createElement('div');
+      mark.className='mark';
+      const key = date.toISOString().slice(0,10);
+      if(marks[key]){ mark.textContent = marks[key]; }
+      cell.appendChild(mark);
 
-        if(date < start || date > end) {
-          const blank = document.createElement('div');
-          blank.className='day disabled';
-          grid.appendChild(blank);
-          continue;
-        }
-
-        const cell = document.createElement('div');
-        cell.className='day';
-        const dateLabel = document.createElement('div');
-        dateLabel.className='date';
-        dateLabel.textContent = d;
-        cell.appendChild(dateLabel);
-        const mark = document.createElement('div');
-        mark.className='mark';
-        const key = date.toISOString().slice(0,10);
-        if(marks[key]){ mark.textContent = marks[key]; }
-        cell.appendChild(mark);
-
-        if(date.getMonth()===2 && date.getDate()===22){
-          cell.classList.add('special');
-          cell.innerHTML = '<div class="special"><div class="big">🌸 Hoy vuelves a casa… y a mí.</div><div class="sub">(❤️ D + D)</div></div>';
-        } else {
-          cell.addEventListener('click', ()=>{
-            const cur = marks[key] || '';
-            const next = cur === '' ? '❌' : (cur === '❌' ? '❤️' : '');
-            marks[key] = next;
-            if(next === '') delete marks[key];
-            localStorage.setItem(LSKEY, JSON.stringify(marks));
-            mark.textContent = next;
-          });
-        }
-
-        grid.appendChild(cell);
+      if(date.getMonth()===2 && date.getDate()===22){
+        cell.classList.add('special');
+        cell.innerHTML = '<div class="special"><div class="big">🌸 Hoy vuelves a casa… y a mí.</div><div class="sub">(❤️ J + D)</div></div>';
+      } else {
+        cell.addEventListener('click', ()=>{
+          const cur = marks[key] || '';
+          const next = cur === '' ? '❌' : (cur === '❌' ? '❤️' : '');
+          marks[key] = next;
+          if(next === '') delete marks[key];
+          localStorage.setItem(LSKEY, JSON.stringify(marks));
+          mark.textContent = next;
+        });
       }
 
-      col.appendChild(grid);
-      poster.appendChild(col);
-    });
+      grid.appendChild(cell);
+    }
 
-    document.getElementById('clear').addEventListener('click', ()=>{
-      if(confirm('¿Borrar todas las marcas?')){
-        marks = {};
-        localStorage.removeItem(LSKEY);
-        location.reload();
-      }
-    });
-    document.getElementById('print').addEventListener('click', ()=> window.print());
-  </script>
+    col.appendChild(grid);
+    poster.appendChild(col);
+  });
+
+  document.getElementById('clear').addEventListener('click', ()=>{
+    if(confirm('¿Borrar todas las marcas?')){
+      marks = {};
+      localStorage.removeItem(LSKEY);
+      location.reload();
+    }
+  });
+  document.getElementById('print').addEventListener('click', ()=> window.print());
+</script>
+
 </body>
 </html>
